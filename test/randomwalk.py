@@ -41,8 +41,8 @@ def randwalk():
 
 
     # Save the game video
-    # print("Saving game video")
-    # g.save_hist_video("game_video.mp4")
+    print("Saving game video")
+    g.save_hist_video("game_video.mp4")
 
     return True
 

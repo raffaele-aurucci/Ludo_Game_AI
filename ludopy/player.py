@@ -256,7 +256,7 @@ class Player:
                             enemies_new[enemy_at_pos][enemy_piece] = HOME_INDEX # There is only one enemy and HE came back home.
                     # If there is more than one then move own piece home.
                     else:
-                        self.pieces[piece] = HOME_INDEX # There is more than one enemy piece, in this case the player came back home.
+                        self.pieces[piece] = new_piece_pos + 1 # There is more than one enemy piece, in this case the player go on 1 step.
 
         return enemies_new # New position of enemies.
 
