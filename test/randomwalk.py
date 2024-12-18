@@ -2,6 +2,7 @@ import ludopy
 import numpy as np
 import sys
 
+
 sys.path.append("../")
 
 
@@ -38,7 +39,6 @@ def randwalk():
         print(f"Enemy's piece positions: {enemy_pieces}")
         print(f"Did the player win? {'Yes' if player_is_a_winner else 'No'}")
         print(f"Is there a winner in the game? {'Yes' if there_is_a_winner else 'No'}")
-
 
     # Save the game video
     # print("Saving game video")

@@ -121,7 +121,7 @@ class Player:
         Makes a player with 2 pieces at the home locations
         """
         self.pieces = []
-        self.number_of_pieces = 4
+        self.number_of_pieces = 2
         self.set_all_pieces_to_home() # Set all the pieces to 0.
 
     def get_pieces_that_can_move(self, dice):
@@ -144,7 +144,11 @@ class Player:
             # If the piece is at home and the dice is DICE_MOVE_OUT_OF_HOME then the dice can move out of the home place.
             elif BORD_TILES[piece_place] == TAILE_HOME and dice == DICE_MOVE_OUT_OF_HOME:
                 movable_pieces.append(piece_i)
-            # If the piece is not at home or at the goal it can move.
+            # If the piece is in goal areal and the dice value not overshoot the board.
+            elif BORD_TILES[piece_place] == TAILE_GOAL_AREAL:
+                if piece_place + dice <= GOAL_INDEX:
+                    movable_pieces.append(piece_i)
+            # If the piece is not at home or at the goal or goal areal it can move.
             elif BORD_TILES[piece_place] != TAILE_HOME:
                 movable_pieces.append(piece_i)
         return movable_pieces
