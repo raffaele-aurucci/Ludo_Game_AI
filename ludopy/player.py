@@ -121,7 +121,7 @@ class Player:
         Makes a player with 2 pieces at the home locations
         """
         self.pieces = []
-        self.number_of_pieces = 2
+        self.number_of_pieces = 4
         self.set_all_pieces_to_home() # Set all the pieces to 0.
 
     def get_pieces_that_can_move(self, dice):
@@ -202,7 +202,6 @@ class Player:
         move_enemy_home_from_poss = []
         enemy_at_pos, enemy_pieces_at_pos = get_enemy_at_pos(new_piece_pos, enemies)
 
-        check_home_passed = False
 
         # If the dice is 0 then no movement can be done.
         if dice == 0:
@@ -225,8 +224,6 @@ class Player:
         elif BORD_TILES[old_piece_pos] == TAILE_HOME:
             if dice == DICE_MOVE_OUT_OF_HOME:
                 self.pieces[piece] = START_INDEX
-
-                check_home_passed = True
 
                 # Set the enemy there might be at START_INDEX to moved.
                 move_enemy_home_from_poss.append(START_INDEX) # The enemies came back at their home.
@@ -253,16 +250,10 @@ class Player:
                 enemy_at_pos, enemy_pieces_at_pos = get_enemy_at_pos(pos, enemies)
                 # Check if there was an enemy at the pos.
                 if enemy_at_pos != NO_ENEMY:
-                    # If there is only one enemy then move the enemy home.
-                    if len(enemy_pieces_at_pos) == 1:
+                    # There is one or more than one enemy pieces, in this case the enemy go home.
+                    if len(enemy_pieces_at_pos) >= 1:
                         for enemy_piece in enemy_pieces_at_pos:
-                            enemies_new[enemy_at_pos][enemy_piece] = HOME_INDEX # There is only one enemy and HE came back home.
-                    # There is more than one enemy piece, in this case the player go on 1 step.
-                    else:
-                        if check_home_passed:
-                            self.pieces[piece] = START_INDEX + 1
-                        else:
-                            self.pieces[piece] = new_piece_pos + 1
+                            enemies_new[enemy_at_pos][enemy_piece] = HOME_INDEX
 
         return enemies_new # New position of enemies.
 
