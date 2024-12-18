@@ -29,7 +29,6 @@ def randwalk():
 
         print(f'piece_to_move {piece_to_move}')
 
-        # Respond to the observation, updating the game state
         dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner = g.answer_observation(piece_to_move)
 
         print(f"\nPlayer's turn: {player_i}")
@@ -41,8 +40,8 @@ def randwalk():
         print(f"Is there a winner in the game? {'Yes' if there_is_a_winner else 'No'}")
 
     # Save the game video
-    # print("Saving game video")
-    # g.save_hist_video("game_video.mp4")
+    print("Saving game video")
+    g.save_hist_video("game_video.mp4")
 
     return True
 

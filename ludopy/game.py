@@ -206,19 +206,25 @@ class Game:
         :return obs: Who the game was after the given move was done. obs is: (dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner)
         :rtype obs: (int, list with upto 4 int's, list with 4 int's, list of 4 lists with 4 int's, bool, bool)
         """
+
+        # If the piece_to_move == -1 and len(self.current_move_pieces) >= 1
+        # pass the turn because has chosen a piece can not be moved.
+
         # Check if there is an observation pending.
         if not self.observation_pending:
             raise RuntimeError("There is no pending observation. "
                                "There has to be a pending observation has to be answered first")
         # Check if the given piece_to_move is among the current_move_pieces.
-        if len(self.current_move_pieces) and piece_to_move not in self.current_move_pieces:
+        if len(self.current_move_pieces) and piece_to_move != -1 and piece_to_move not in self.current_move_pieces:
             raise RuntimeError("The piece given has to be among the given move_pieces")
         # If it is then move the piece.
-        elif len(self.current_move_pieces):
+        elif len(self.current_move_pieces) and piece_to_move != -1:
             new_enemys = self.players[self.current_player].move_piece(piece_to_move,
                                                                       self.current_dice, self.current_enemys)
             self._set_enemy_pieces(self.current_player, new_enemys)
         # If there was no pieces that could be moved then nothing can be done.
+        # If the piece_to_move == -1 and len(self.current_move_pieces) >= 1 pass the turn because has chosen a piece
+        # can not be moved.
         else:
             pass  # This line is present for readability.
 
