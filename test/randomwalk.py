@@ -40,8 +40,8 @@ def randwalk():
         print(f"Is there a winner in the game? {'Yes' if there_is_a_winner else 'No'}")
 
     # Save the game video
-    print("Saving game video")
-    g.save_hist_video("game_video.mp4")
+    # print("Saving game video")
+    # g.save_hist_video("game_video.mp4")
 
     return True
 
