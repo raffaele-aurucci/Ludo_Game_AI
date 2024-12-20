@@ -2,6 +2,7 @@ import gymnasium as gym
 import numpy as np
 
 import ludopy
+from environment.rewards import get_reward_from_strategy
 from environment.state import encode_state
 
 
@@ -79,23 +80,36 @@ class LudoEnv(gym.Env):
                 reward -= 1
                 pass # if the agent choose an action that there is not in move_pieces
 
+
         # execute move in the game
         (_, _, player_pos, enemy_pos, player_is_a_winner,
          there_is_a_winner) = self.game.answer_observation(piece_to_move)
 
-        # update state of player and state of enemy
-        if self.current_player == 'green':
-            self.player_state = encode_state(old_player_pos, player_pos, enemy_pos)
-            self.enemy_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
-        else: # turn of player blue
-            self.enemy_state = encode_state(old_player_pos, player_pos, enemy_pos)
-            self.player_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
 
-        # check if the player is a winner
-        if player_is_a_winner:
-            reward += 50
-            self.there_is_a_winner = True
-            terminated = True
+        # check if the player pass the turn (because has chosen an invalid action)
+        if piece_to_move != -1:
+
+            # save old state
+            old_player_state = self.player_state
+            old_enemy_state = self.enemy_state
+
+            # update state of player and state of enemy
+            if self.current_player == 'green':
+                reward += get_reward_from_strategy(old_player_state, action, old_player_pos, move_pieces)
+                self.player_state = encode_state(old_player_pos, player_pos, enemy_pos)
+                self.enemy_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
+                reward += self.compute_additional_reward(old_player_state, self.player_state, old_enemy_state, self.enemy_state)
+            else: # turn of player blue
+                reward += get_reward_from_strategy(old_enemy_state, action, old_enemy_pos, move_pieces)
+                self.enemy_state = encode_state(old_player_pos, player_pos, enemy_pos)
+                self.player_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
+                reward += self.compute_additional_reward(old_enemy_state, self.enemy_state, old_player_state, self.player_state)
+
+            # check if the player is a winner
+            if player_is_a_winner:
+                reward += 50
+                self.there_is_a_winner = True
+                terminated = True
 
         info = {
             'current_player': self.current_player,
@@ -109,6 +123,31 @@ class LudoEnv(gym.Env):
 
         return self.player_state, self.enemy_state, info, reward, terminated
 
+
+    def compute_additional_reward(self, old_player_state, player_state, old_enemy_state, enemy_state):
+        reward = 0
+
+        # Reward when the token of the player enter into PATH from HOME.
+        if old_player_state['HOME'] > player_state['HOME']:
+            reward += 3
+
+        # Reward when the token of the player enter into safe zone.
+        if old_player_state['SAFE'] < player_state['SAFE']:
+            reward += 5
+
+        # Reward when at least one token of the player enter into goal tail.
+        if old_player_state['GOAL'] < player_state['GOAL']:
+            reward += 10
+
+        # Reward when token of player eats the enemy token.
+        if old_enemy_state['HOME'] < enemy_state['HOME']:
+            reward += 7
+
+        # Reward when the enemy token eats the player token.
+        if old_player_state['HOME'] < player_state['HOME']:
+            reward -= 7
+
+        return reward
 
     def reset(self, seed=None, options=None):
         self.game.reset()
@@ -161,4 +200,6 @@ while True:
     if terminated:
         break
 
-ludo_env.render()
+    # TODO: check current player who is for step function
+
+# ludo_env.render()
