@@ -135,37 +135,42 @@ def _update_state(old_state: dict, update_state: str, old_player_pos = None, new
                     state['PATH'] = 1
                     state['HOME'] = 1
 
+        token_1_pos_from_enemy = new_player_pos[TOKEN_1]
+        token_2_pos_from_enemy = new_player_pos[TOKEN_2]
 
-        token_1_pos_from_enemy = enemy_pos_at_pos(new_player_pos[TOKEN_1])[1][0]
-        token_2_pos_from_enemy = enemy_pos_at_pos(new_player_pos[TOKEN_2])[1][0]
+        if(new_player_pos[TOKEN_1] != 52 and new_player_pos[TOKEN_1] != 0):
+            token_1_pos_from_enemy = enemy_pos_at_pos(new_player_pos[TOKEN_1])[1][0]
+
+        if(new_player_pos[TOKEN_2] != 52 and new_player_pos[TOKEN_2] != 0):
+            token_2_pos_from_enemy = enemy_pos_at_pos(new_player_pos[TOKEN_2])[1][0]
 
         # If the TOKEN1-TOKEN2 of the player is vulnerable to the TOKEN1-TOKEN2 of the enemy
         # or the enemy is vulnerable to TOKEN1-TOKEN2 of player.
         for TOKEN in [TOKEN_1, TOKEN_2]:
             if new_enemy_pos[TOKEN] in PATH and new_enemy_pos[TOKEN] != BANNED_INDEX:
 
-                if token_1_pos_from_enemy != NOT_VALID:
+                if token_1_pos_from_enemy in PATH and token_1_pos_from_enemy != NOT_VALID:
 
                     if 1 <= (token_1_pos_from_enemy - new_enemy_pos[TOKEN]) <= 6:
                         # Check for extreme case (player and enemy cannot eat).
-                        if not (new_player_pos[TOKEN] >= 27 and new_enemy_pos[TOKEN] >= 47):
+                        if not (new_player_pos[TOKEN_1] >= 27 and new_enemy_pos[TOKEN] >= 47):
                             state['TOKEN_1_VULNERABLE_TO_ENEMY'] = 1
 
                     elif -6 <= (token_1_pos_from_enemy - new_enemy_pos[TOKEN]) <= -1:
                         # Same.
-                        if not (new_player_pos[TOKEN] >= 47 and new_enemy_pos[TOKEN] >= 27):
+                        if not (new_player_pos[TOKEN_1] >= 47 and new_enemy_pos[TOKEN] >= 27):
                             state['ENEMY_VULNERABLE_TO_TOKEN_1'] = 1
 
-                if token_2_pos_from_enemy != NOT_VALID:
+                if token_2_pos_from_enemy in PATH and token_2_pos_from_enemy != NOT_VALID:
 
                     if 1 <= (token_2_pos_from_enemy - new_enemy_pos[TOKEN]) <= 6:
                         # Same.
-                        if not (new_player_pos[TOKEN] >= 27 and new_enemy_pos[TOKEN] >= 47):
+                        if not (new_player_pos[TOKEN_2] >= 27 and new_enemy_pos[TOKEN] >= 47):
                             state['TOKEN_2_VULNERABLE_TO_ENEMY'] = 1
 
                     elif -6 <= (token_2_pos_from_enemy - new_enemy_pos[TOKEN]) <= -1:
                         # Same.
-                        if not (new_player_pos[TOKEN] >= 47 and new_enemy_pos[TOKEN] >= 27):
+                        if not (new_player_pos[TOKEN_2] >= 47 and new_enemy_pos[TOKEN] >= 27):
                             state['ENEMY_VULNERABLE_TO_TOKEN_2'] = 1
 
             # If the TOKEN1-TOKEN2 of enemy is in HOME and the TOKEN1-TOKEN2 of the player are on its START_INDEX.
