@@ -6,13 +6,8 @@ states = [
 
     #Case 2
     (1, 1, 0, 0, 0, 0, 0, 0), (1, 1, 0, 0, 0, 0, 0, 1), (1, 1, 0, 0, 0, 0, 1, 0), (1, 1, 0, 0, 0, 1, 0, 0),
-    (1, 1, 0, 0, 1, 0, 0, 0), (1, 1, 0, 0, 1, 1, 0, 0),
-    # (1, 1, 0, 0, 1, 1, 0, 1), DOVREBBE ESSERE IMPOSSIBILE TROVARSI IN QUESTO STATO
-    # (1, 1, 0, 0, 1, 1, 1, 0), DOVREBBE ESSERE IMPOSSIBILE TROVARSI IN QUESTO STATO
-    (1, 1, 0, 0, 0, 1, 1, 0), # STATO AGGIUNTO
-    (1, 1, 0, 0, 1, 0, 0, 1), # STATO AGGIUNTO
-    (1, 1, 0, 0, 0, 1, 0, 1), # STATO AGGIUNTO
-    (1, 1, 0, 0, 1, 0, 1, 0), # STATO AGGIUNTO
+    (1, 1, 0, 0, 1, 0, 0, 0), (1, 1, 0, 0, 1, 1, 0, 0), (1, 1, 0, 0, 1, 1, 0, 1), (1, 1, 0, 0, 1, 1, 1, 0),
+    (1, 1, 0, 0, 0, 1, 1, 0), (1, 1, 0, 0, 1, 0, 0, 1), (1, 1, 0, 0, 0, 1, 0, 1), (1, 1, 0, 0, 1, 0, 1, 0),
 
     #Case 3
     (1, 0, 1, 0, 0, 0, 0, 0), (1, 0, 1, 0, 0, 1, 0, 0), (1, 0, 1, 0, 1, 0, 0, 0),
@@ -50,14 +45,9 @@ rewards = [
     [0, 0], [0, 0],
 
     #Case 2
-    [0, 0], [-4, 2], [4, -4], [-4, 4],
-    [4, -4], [-4, 4],
-    # [-4, 4],  RICOMPENSE RELATIVE AD UNO STATO IMPOSSIBILE
-    # [4, -4],  RICOMPENSE RELATIVE AD UNO STATO IMPOSSIBILE
-    [-2, 2],    # RICOMPENSE RELATIVE AD UNO STATO AGGIUNTO
-    [2, -2],    # RICOMPENSE RELATIVE AD UNO STATO AGGIUNTO
-    [-4, 4],    # RICOMPENSE RELATIVE AD UNO STATO AGGIUNTO
-    [4, -4],    # RICOMPENSE RELATIVE AD UNO STATO AGGIUNTO
+    [0, 0],  [-4, 4], [4, -4], [-4, 4],
+    [4, -4], [-4, 4], [-4, 4], [4, -4],
+    [-4, 4], [4, -4], [-4, 4], [4, -4],
 
     #Case 3
     [0, 0], [-4, 4], [4, -4],

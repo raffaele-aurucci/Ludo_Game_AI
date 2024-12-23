@@ -189,16 +189,19 @@ class LudoEnv(gym.Env):
 ludo_env = LudoEnv(ludopy.Game())
 terminated = False
 
-while True:
-    player_state, enemy_state, info, reward, terminated = ludo_env.step(action=np.random.randint(0,2))
-    print(f"1. GREEN State: {player_state}")
-    print(f"2. BLUE State: {enemy_state}")
-    print(f"3. Info: {info}")
-    print(f"4. Reward: {reward}")
-    print(f"5. Terminated: {terminated}\n")
+for i in range(0, 2000):
+    while True:
 
-    if terminated:
-        break
+        player_state, enemy_state, info, reward, terminated = ludo_env.step(action=np.random.randint(0,2))
+        print(f"1. GREEN State: {player_state}")
+        print(f"2. BLUE State: {enemy_state}")
+        print(f"3. Info: {info}")
+        print(f"4. Reward: {reward}")
+        print(f"5. Terminated: {terminated}\n")
+
+        if terminated:
+            ludo_env.reset()
+            break
 
     # TODO: check current player who is for step function
 
