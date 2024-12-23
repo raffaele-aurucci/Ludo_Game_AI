@@ -83,7 +83,7 @@ class LudoEnv(gym.Env):
 
         # execute move in the game
         (_, _, player_pos, enemy_pos, player_is_a_winner,
-         there_is_a_winner) = self.game.answer_observation(piece_to_move)
+         there_is_a_winner), next_player = self.game.answer_observation(piece_to_move)
 
 
         # check if the player pass the turn (because has chosen an invalid action)
@@ -113,6 +113,7 @@ class LudoEnv(gym.Env):
 
         info = {
             'current_player': self.current_player,
+            'next_player': next_player,
             'last_dice': dice,
             'old_player_pos': old_player_pos,
             'player_pos': player_pos,
@@ -186,23 +187,23 @@ class LudoEnv(gym.Env):
 
 
 # test of the environment
-ludo_env = LudoEnv(ludopy.Game())
-terminated = False
-
-for i in range(0, 2000):
-    while True:
-
-        player_state, enemy_state, info, reward, terminated = ludo_env.step(action=np.random.randint(0,2))
-        print(f"1. GREEN State: {player_state}")
-        print(f"2. BLUE State: {enemy_state}")
-        print(f"3. Info: {info}")
-        print(f"4. Reward: {reward}")
-        print(f"5. Terminated: {terminated}\n")
-
-        if terminated:
-            ludo_env.reset()
-            break
-
-    # TODO: check current player who is for step function
-
+# ludo_env = LudoEnv(ludopy.Game())
+# terminated = False
+#
+# for i in range(0, 3):
+#     while not terminated:
+#
+#         player_state, enemy_state, info, reward, terminated = ludo_env.step(action=np.random.randint(0,2))
+#         print(f"1. GREEN State: {player_state}")
+#         print(f"2. BLUE State: {enemy_state}")
+#         print(f"3. Info: {info}")
+#         print(f"4. Reward: {reward}")
+#         print(f"5. Terminated: {terminated}\n")
+#
+#         if terminated:
+#             ludo_env.reset()
+#             # break
+#
+#     terminated = False
+#
 # ludo_env.render()

@@ -138,7 +138,7 @@ def _update_state(old_state: dict, update_state: str, old_player_pos = None, new
         token_1_pos_from_enemy = new_player_pos[TOKEN_1]
         token_2_pos_from_enemy = new_player_pos[TOKEN_2]
 
-        # Manage event when the player is in second tail of SAFE AREA - enemy_pos_at_pos(52) = 26
+        # Manage event when the player is in first tail of SAFE AREA - enemy_pos_at_pos(52) = 26
         if new_player_pos[TOKEN_1] != 52:
             token_1_pos_from_enemy = enemy_pos_at_pos(new_player_pos[TOKEN_1])[1][0]
 

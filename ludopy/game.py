@@ -260,11 +260,26 @@ class Game:
         # Get the environment after the move.
         after_obs = self._gen_observation(self.current_player, roll_dice=False)
 
+        # Check the next player.
+        next_player_turn = None
+
+        if self.current_player == 0:
+            next_player_turn = 'green'
+        elif self.current_player == 2:
+            next_player_turn = 'blue'
+
         # If it is the next players turn then change current_player.
         if next_player:
+
+            if self.current_player == 0:
+                next_player_turn = 'blue'
+
+            if self.current_player == 2:
+                next_player_turn = 'green'
+
             self._count_player()
 
-        return after_obs
+        return after_obs, next_player_turn
 
     def get_winner_of_game(self):
         """

@@ -29,7 +29,7 @@ def randwalk():
 
         print(f'piece_to_move {piece_to_move}')
 
-        dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner = g.answer_observation(piece_to_move)
+        (dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner), next_player = g.answer_observation(piece_to_move)
 
         print(f"\nPlayer's turn: {player_i}")
         print(f"Dice value: {dice}")
@@ -38,6 +38,7 @@ def randwalk():
         print(f"Enemy's piece positions: {enemy_pieces}")
         print(f"Did the player win? {'Yes' if player_is_a_winner else 'No'}")
         print(f"Is there a winner in the game? {'Yes' if there_is_a_winner else 'No'}")
+        print(f'Next player: {next_player}')
 
     # Save the game video
     # print("Saving game video")

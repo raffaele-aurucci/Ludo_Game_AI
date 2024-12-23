@@ -83,8 +83,6 @@ rewards = [
 def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarray, move_pieces: np.ndarray) -> int:
     reward = 0
 
-    print(state.values())
-
     # Return the index of the state.
     index_state = states.index(tuple(state.values()))
 
