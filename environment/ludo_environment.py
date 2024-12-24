@@ -1,5 +1,6 @@
 import gymnasium as gym
 import numpy as np
+import os
 
 import ludopy
 from environment.rewards import get_reward_from_strategy
@@ -180,10 +181,15 @@ class LudoEnv(gym.Env):
             'TOKEN_2_VULNERABLE_TO_ENEMY': 0,
         }
 
-    def render(self):
+    def render(self, mode:str):
         if self.there_is_a_winner:
+            video_path = "../results/video"
+
+            if not os.path.exists(video_path):
+                os.makedirs(video_path)
+
             print("Saving game video")
-            self.game.save_hist_video("game_video.mp4")
+            self.game.save_hist_video(f"../results/video/game_video_{mode}.mp4")
 
 
 # test of the environment

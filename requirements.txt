@@ -3,3 +3,4 @@ opencv-python>=3.1
 gymnasium==1.0.0
 tqdm>=2.2.3
 pandas>=2.2.3
+matplotlib>=3.10.0
