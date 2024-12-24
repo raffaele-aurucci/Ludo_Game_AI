@@ -2,47 +2,59 @@ import pickle
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
+import matplotlib.pyplot as plt
 
 import ludopy
 from environment.ludo_environment import LudoEnv
 from environment.rewards import states
 
 
-def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float, self_play = False) -> tuple:
+SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
+SAVE_PLOTS = True            # True when not in grid search mode, else False.
+SELF_PLAY = False
+
+
+def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float) -> tuple:
 
     agent_wins = []
     enemy_wins = []
-    total_rewards_player = []
-    total_rewards_enemy = []
+    total_rewards = []
 
     # Initialize environment.
     env = LudoEnv(ludopy.Game())
 
-    # Initialize Q table.
-    Q_player = np.random.rand(53, 2)
+    # Random if not self-play.
+    Q_agent = np.random.rand(53, 2)
 
-    # TODO: understand how to do self-play
-    Q_enemy = np.random.rand(53, 2)
+    if SELF_PLAY:
+        with open('../models/q_learning_agent.pkl', 'rb') as file:
+            Q_agent = pickle.load(file)
+
+    # Using in self-play.
+    Q_enemy = None
+
+    if SELF_PLAY:
+        with open('../models/q_learning_agent.pkl', 'rb') as file:
+            Q_enemy = pickle.load(file)
 
     for episode in range(num_of_episodes):
         terminated = False
 
         # Respect to Q-table (player).
-        current_player_state_idx = 0
+        current_agent_state_idx = 0
 
         # Respect to Q-table (enemy).
         current_enemy_state_idx = 0
 
-        total_reward_player = 0
-        total_reward_enemy = 0
+        total_reward = 0
 
         while not terminated:
 
-            # Player turn (green).
+            # Agent turn (green).
             while not terminated:
 
-                # Choose the action to run
-                action = choose_action(Q_player, current_player_state_idx, exploration_prob)
+                # Choose the action from Q-table.
+                action = choose_action(Q_agent, current_agent_state_idx, exploration_prob)
 
                 player_state, enemy_state, info, reward, terminated = env.step(action=action)
 
@@ -51,22 +63,20 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
                     enemy_wins.append(False)
 
                 # Return the index of the state.
-                new_player_state_idx = states.index(tuple(player_state.values()))
+                new_agent_state_idx = states.index(tuple(player_state.values()))
 
                 # Update Q table.
-                updateQTable(Q_player, current_player_state_idx, new_player_state_idx, reward, action, learning_rate, discount_factor)
+                update_Q_table(Q_agent, current_agent_state_idx, new_agent_state_idx, reward, action, learning_rate, discount_factor)
 
                 # Update current state.
-                current_player_state_idx = new_player_state_idx
+                current_agent_state_idx = new_agent_state_idx
 
-                total_reward_player += reward
+                total_reward += reward
 
-                # Player win (green).
+                # Agent win (green).
                 if terminated:
                     env.reset()
-                    total_rewards_player.append(total_reward_player)
-                    if self_play:
-                        total_rewards_enemy.append(total_reward_enemy)
+                    total_rewards.append(total_reward)
 
                 if info['next_player'] != info['current_player']:
                     break
@@ -78,42 +88,33 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
                 action = None
 
                 # If you play against yourself, the action chosen is not random.
-                if self_play:
-                    action = choose_action(Q_enemy, current_enemy_state_idx, exploration_prob)
+                if SELF_PLAY:
+                    action = int(np.argmax(Q_enemy[current_enemy_state_idx, :]))
                 else:
                     action = np.random.randint(0, 2)
 
                 # Player_state is always green.
-                player_state, enemy_state, info, reward_enemy, terminated = env.step(action=action)
+                player_state, enemy_state, info, _, terminated = env.step(action=action)
 
                 if info['player_is_a_winner']:
                     agent_wins.append(False)
                     enemy_wins.append(True)
 
                 # Return the index of the state.
-                current_player_state_idx = states.index(tuple(player_state.values()))
+                current_agent_state_idx = states.index(tuple(player_state.values()))
 
-                if self_play:
+                if SELF_PLAY:
 
                     # Return the index of the state.
                     new_enemy_state_idx = states.index(tuple(enemy_state.values()))
 
-                    # Update Q table.
-                    updateQTable(Q_enemy, current_enemy_state_idx, new_enemy_state_idx, reward_enemy, action, learning_rate,
-                                 discount_factor)
-
                     # Update current state.
                     current_enemy_state_idx = new_enemy_state_idx
-
-                    total_reward_enemy += reward_enemy
-
 
                 # Enemy win (blue).
                 if terminated:
                     env.reset()
-                    total_rewards_player.append(total_reward_enemy)
-                    if self_play:
-                        total_rewards_enemy.append(total_reward_enemy)
+                    total_rewards.append(total_reward)
 
                 if info['next_player'] != info['current_player']:
                     break
@@ -121,33 +122,68 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
 
         exploration_prob = max(0.01, exploration_prob * 0.995)
 
-    # TODO: add plot for win_rate on number of episodes
+
+    # Plot wins over episodes.
+    if SAVE_PLOTS:
+        draw_plot(num_of_episodes, agent_wins, enemy_wins)
 
     percentage_win_agent = (sum(agent_wins) / num_of_episodes) * 100
     percentage_win_enemy = (sum(enemy_wins) / num_of_episodes) * 100
 
-    return Q_player, percentage_win_agent, percentage_win_enemy
+    return Q_agent, percentage_win_agent, percentage_win_enemy
 
 
-def choose_action(Q, state_idx: int, exploration_prob: float) -> int:
+def choose_action(Q: np.ndarray, state_idx: int, exploration_prob: float) -> int:
     if np.random.rand() < exploration_prob:
         return np.random.randint(0, 2)  # Random exploration.
     else:
         return int(np.argmax(Q[state_idx, :]))
 
 
-def updateQTable(Q, current_player_state_idx: int, new_player_state_idx: int, reward:int, action: int,
-                 learning_rate: float, discount_factor: float):
+def update_Q_table(Q: np.ndarray, current_player_state_idx: int, new_player_state_idx: int, reward:int, action: int,
+                   learning_rate: float, discount_factor: float):
     Q[current_player_state_idx, action] = (1 - learning_rate) * Q[current_player_state_idx, action] + \
                                learning_rate * (reward + discount_factor * np.max(Q[new_player_state_idx, :]))
+
+
+def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
+
+    agent_cumsum = np.cumsum(agent_wins)  # Cumulative sum for agent
+    enemy_cumsum = np.cumsum(enemy_wins)  # Cumulative sum for enemy
+
+    agent_percentage = (agent_cumsum / num_of_episodes) * 100
+    enemy_percentage = (enemy_cumsum / num_of_episodes) * 100
+
+    fig, ax = plt.subplots()
+
+    ax.plot(agent_percentage, label='Agent Wins %', color='forestgreen')
+    ax.plot(enemy_percentage, label='Enemy Wins %', color='steelblue')
+    ax.set_title('Wins Over Episodes')
+    ax.set_xlabel('Episode')
+    ax.set_ylabel('Percentage Win')
+    ax.legend()
+
+
+    if SELF_PLAY:
+        plt.savefig('../results/plots/wins_plot_q_learning_self_play.png')
+    else:
+        plt.savefig('../results/plots/wins_plot_q_learning.png')
+
+    plt.show()
 
 
 if __name__ == '__main__':
     num_episodes = 5000
 
-    exploration_probabilities = [0.1, 0.2, 0.3]
-    learning_rates = [0.3, 0.4, 0.5]
-    discount_factors = [0.3, 0.5, 0.7, 0.9]
+    # Uncomment this part for grid search.
+    # exploration_probabilities = [0.1, 0.2, 0.3]
+    # learning_rates = [0.3, 0.4, 0.5]
+    # discount_factors = [0.3, 0.5, 0.7, 0.9]
+
+    # The best configuration.
+    exploration_probabilities = [0.1]
+    learning_rates = [0.4]
+    discount_factors = [0.3]
 
     best_percentage_win_agent = 0
 
@@ -164,13 +200,11 @@ if __name__ == '__main__':
 
     results = []
 
-    self_play = False
-
     for exploration_prob, learning_rate, discount_factor in tqdm(param_combinations, desc="Training Progress",
                                                                  total=len(param_combinations)):
 
         Q, percentage_win_agent, percentage_win_enemy = training_episodes(num_episodes, exploration_prob, learning_rate,
-                                                                        discount_factor, self_play=self_play)
+                                                                          discount_factor)
 
         results.append([num_episodes, exploration_prob, learning_rate, discount_factor,
                         round(percentage_win_agent, 2), round(percentage_win_enemy, 2)])
@@ -178,7 +212,7 @@ if __name__ == '__main__':
         if percentage_win_agent > best_percentage_win_agent:
             best_percentage_win_agent = percentage_win_agent
 
-            if self_play:
+            if SELF_PLAY:
                 with open('../models/q_learning_agent_self_play.pkl', 'wb') as file:
                     pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
@@ -187,11 +221,17 @@ if __name__ == '__main__':
                     pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
 
+            if not SAVE_CSV_RESULTS:
+                print(f'Percentage win agent: {percentage_win_agent}')
+                print(f'Percentage win enemy: {percentage_win_enemy}')
+
+
     df = pd.DataFrame(results,
                       columns=['Num Episodes', 'Exploration Probability', 'Learning Rate', 'Discount Factor',
                                'Percentage Win Agent', 'Percentage Win Enemy'])
 
-    if self_play:
-        df.to_csv('../results/training_results_q_learning_self_play.csv', index=False)
-    else:
-        df.to_csv('../results/training_results_q_learning.csv', index=False)
+    if SAVE_CSV_RESULTS:
+        if SELF_PLAY:
+            df.to_csv('../results/training_results_q_learning_self_play.csv', index=False)
+        else:
+            df.to_csv('../results/training_results_q_learning.csv', index=False)
