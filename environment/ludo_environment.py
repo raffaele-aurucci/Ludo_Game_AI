@@ -78,7 +78,7 @@ class LudoEnv(gym.Env):
                 index = np.where(move_pieces == action)[0][0]
                 piece_to_move = move_pieces[index]
             else:
-                reward -= 1
+                reward -= 50
                 pass # if the agent choose an action that there is not in move_pieces
 
 
@@ -131,7 +131,7 @@ class LudoEnv(gym.Env):
 
         # Reward when the token of the player enter into PATH from HOME.
         if old_player_state['HOME'] > player_state['HOME']:
-            reward += 3
+            reward += 30
 
         # Reward when the token of the player enter into safe zone.
         if old_player_state['SAFE'] < player_state['SAFE']:

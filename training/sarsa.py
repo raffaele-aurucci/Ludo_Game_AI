@@ -219,11 +219,11 @@ if __name__ == '__main__':
             if SELF_PLAY:
                 with open('../models/sarsa_agent_self_play.pkl', 'wb') as file:
                     pickle.dump(Q, file)
-                print("\nQ model saved successfully.")
+                print("\nSarsa model saved successfully.")
             else:
                 with open('../models/sarsa_agent.pkl', 'wb') as file:
                     pickle.dump(Q, file)
-                print("\nQ model saved successfully.")
+                print("\nSarsa model saved successfully.")
 
             if not SAVE_CSV_RESULTS:
                 print(f'Percentage win agent: {percentage_win_agent}')
