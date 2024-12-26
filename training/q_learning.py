@@ -11,7 +11,7 @@ from environment.rewards import states
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
 SAVE_PLOTS = True            # True when not in grid search mode, else False.
-SELF_PLAY = False
+SELF_PLAY = True
 
 
 def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float) -> tuple:
@@ -142,8 +142,9 @@ def choose_action(Q: np.ndarray, state_idx: int, exploration_prob: float) -> int
 
 def update_Q_table(Q: np.ndarray, current_player_state_idx: int, new_player_state_idx: int, reward:int, action: int,
                    learning_rate: float, discount_factor: float):
-    Q[current_player_state_idx, action] = (1 - learning_rate) * Q[current_player_state_idx, action] + \
-                               learning_rate * (reward + discount_factor * np.max(Q[new_player_state_idx, :]))
+
+    Q[current_player_state_idx, action] += learning_rate * (reward + discount_factor * np.max(Q[new_player_state_idx, :]
+                                                            - Q[current_player_state_idx, action]))
 
 
 def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
@@ -182,7 +183,7 @@ if __name__ == '__main__':
 
     # The best configuration.
     exploration_probabilities = [0.1]
-    learning_rates = [0.3]
+    learning_rates = [0.4]
     discount_factors = [0.3]
 
     best_percentage_win_agent = 0

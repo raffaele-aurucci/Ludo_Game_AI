@@ -9,7 +9,7 @@ from environment.rewards import states
 SAVE_VIDEO = True
 saved = False
 
-def execute(mode:str = 'Q-VS-RANDOM'):
+def execute(mode:str = 'S-VS-RANDOM'):
 
     # Initialize environment.
     env = LudoEnv(ludopy.Game())
@@ -19,30 +19,30 @@ def execute(mode:str = 'Q-VS-RANDOM'):
 
     global saved
 
-    if mode == 'Q-VS-RANDOM':
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+    if mode == 'S-VS-RANDOM':
+        with open('../models/sarsa_agent.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
 
-    elif mode == 'Q-VS-Q':
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+    elif mode == 'S-VS-S':
+        with open('../models/sarsa_agent.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+        with open('../models/sarsa_agent.pkl', 'rb') as file:
             Q_enemy = pickle.load(file)
 
-    elif mode == 'Q_SELF-VS-RANDOM':
-        with open('../models/q_learning_agent_self_play.pkl', 'rb') as file:
+    elif mode == 'S_SELF-VS-RANDOM':
+        with open('../models/sarsa_agent_self_play.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
 
-    elif mode == 'Q_SELF-VS-Q':
-        with open('../models/q_learning_agent_self_play.pkl', 'rb') as file:
+    elif mode == 'S_SELF-VS-S':
+        with open('../models/sarsa_agent_self_play.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+        with open('../models/sarsa_agent.pkl', 'rb') as file:
             Q_enemy = pickle.load(file)
 
-    elif mode == 'Q_SELF-VS-Q_SELF':
-        with open('../models/q_learning_agent_self_play.pkl', 'rb') as file:
+    elif mode == 'S_SELF-VS-S_SELF':
+        with open('../models/sarsa_agent_self_play.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
-        with open('../models/q_learning_agent_self_play.pkl', 'rb') as file:
+        with open('../models/sarsa_agent_self_play.pkl', 'rb') as file:
             Q_enemy = pickle.load(file)
 
     else:
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     np.random.seed(42)
     num_wins_agent = 0
 
-    mode = 'Q_SELF-VS-RANDOM'
+    mode = 'S-VS-S'
 
     for i in tqdm(range(0, 5000), desc='Game progress'):
         win_agent = execute(mode)

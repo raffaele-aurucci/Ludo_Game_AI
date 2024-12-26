@@ -11,7 +11,7 @@ from environment.rewards import states
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
 SAVE_PLOTS = True            # True when not in grid search mode, else False.
-SELF_PLAY = False
+SELF_PLAY = True
 
 
 def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float) -> tuple:
@@ -27,14 +27,14 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
     Q_agent = np.random.rand(53, 2)
 
     if SELF_PLAY:
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+        with open('../models/sarsa_agent.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
 
     # Using in self-play.
     Q_enemy = None
 
     if SELF_PLAY:
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+        with open('../models/sarsa_agent.pkl', 'rb') as file:
             Q_enemy = pickle.load(file)
 
     for episode in range(num_of_episodes):
@@ -186,7 +186,7 @@ if __name__ == '__main__':
 
     # The best configuration.
     exploration_probabilities = [0.1]
-    learning_rates = [0.3]
+    learning_rates = [0.4]
     discount_factors = [0.3]
 
     best_percentage_win_agent = 0
