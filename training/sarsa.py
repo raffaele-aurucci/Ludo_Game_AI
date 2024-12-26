@@ -65,8 +65,11 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
                 # Return the index of the state.
                 new_agent_state_idx = states.index(tuple(player_state.values()))
 
+                # Obtain new action.
+                new_action = choose_action(Q_agent, new_agent_state_idx, exploration_prob)
+
                 # Update Q table.
-                update_Q_table(Q_agent, current_agent_state_idx, new_agent_state_idx, reward, action, learning_rate, discount_factor)
+                update_Q_table(Q_agent, current_agent_state_idx, new_agent_state_idx, reward, action, new_action, learning_rate, discount_factor)
 
                 # Update current state.
                 current_agent_state_idx = new_agent_state_idx
@@ -141,9 +144,10 @@ def choose_action(Q: np.ndarray, state_idx: int, exploration_prob: float) -> int
 
 
 def update_Q_table(Q: np.ndarray, current_player_state_idx: int, new_player_state_idx: int, reward:int, action: int,
-                   learning_rate: float, discount_factor: float):
-    Q[current_player_state_idx, action] = (1 - learning_rate) * Q[current_player_state_idx, action] + \
-                               learning_rate * (reward + discount_factor * np.max(Q[new_player_state_idx, :]))
+                   new_action: int, learning_rate: float, discount_factor: float):
+
+    Q[current_player_state_idx, action] += learning_rate * (reward + discount_factor * Q[new_player_state_idx, new_action]
+                                                            - Q[current_player_state_idx, action])
 
 
 def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
@@ -165,9 +169,9 @@ def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
 
 
     if SELF_PLAY:
-        plt.savefig('../results/plots/wins_plot_q_learning_self_play.png')
+        plt.savefig('../results/plots/wins_plot_sarsa_self_play.png')
     else:
-        plt.savefig('../results/plots/wins_plot_q_learning.png')
+        plt.savefig('../results/plots/wins_plot_sarsa.png')
 
     plt.show()
 
@@ -213,11 +217,11 @@ if __name__ == '__main__':
             best_percentage_win_agent = percentage_win_agent
 
             if SELF_PLAY:
-                with open('../models/q_learning_agent_self_play.pkl', 'wb') as file:
+                with open('../models/sarsa_agent_self_play.pkl', 'wb') as file:
                     pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
             else:
-                with open('../models/q_learning_agent.pkl', 'wb') as file:
+                with open('../models/sarsa_agent.pkl', 'wb') as file:
                     pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
 
@@ -232,6 +236,6 @@ if __name__ == '__main__':
 
     if SAVE_CSV_RESULTS:
         if SELF_PLAY:
-            df.to_csv('../results/training_results_q_learning_self_play.csv', index=False)
+            df.to_csv('../results/training_results_sarsa_self_play.csv', index=False)
         else:
-            df.to_csv('../results/training_results_q_learning.csv', index=False)
+            df.to_csv('../results/training_results_sarsa.csv', index=False)

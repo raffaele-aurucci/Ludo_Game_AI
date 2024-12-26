@@ -127,7 +127,7 @@ def execute(mode:str = 'Q-VS-RANDOM'):
             if info['next_player'] != info['current_player']:
                 break
 
-    return win_agent, env
+    return win_agent
 
 
 if __name__ == '__main__':
@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     mode = 'Q-VS-RANDOM'
 
-    for i in tqdm(range(0, 10), desc='Game progress'):
+    for i in tqdm(range(0, 5000), desc='Game progress'):
         win_agent = execute(mode)
         if win_agent:
             num_wins_agent += 1
