@@ -186,8 +186,8 @@ if __name__ == '__main__':
 
     # The best configuration.
     exploration_probabilities = [0.1]
-    learning_rates = [0.4]
-    discount_factors = [0.3]
+    learning_rates = [0.3]
+    discount_factors = [0.9]
 
     best_percentage_win_agent = 0
 

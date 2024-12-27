@@ -10,7 +10,7 @@ from environment.rewards import states
 
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
-SAVE_PLOTS = True            # True when not in grid search mode, else False.
+SAVE_PLOTS = True          # True when not in grid search mode, else False.
 SELF_PLAY = True
 
 
@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     # The best configuration.
     exploration_probabilities = [0.1]
-    learning_rates = [0.4]
+    learning_rates = [0.3]
     discount_factors = [0.3]
 
     best_percentage_win_agent = 0
