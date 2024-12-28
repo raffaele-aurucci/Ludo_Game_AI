@@ -15,7 +15,7 @@ g.map(sns.lineplot, "Discount Factor", "Percentage Win Agent", marker="o")
 # Adjust titles and labels
 g.set_titles(col_template="Exploration Prob={col_name}", row_template="Learning Rate={row_name}")
 g.set_axis_labels("Discount Factor", "Percentage Win Agent")
-g.set(ylim=(64, 77))  # Set y-axis limits for better visualization
+g.set(ylim=(50, 60))  # Set y-axis limits for better visualization
 g.tight_layout()  # Adjust layout to prevent overlap
 
 # Display the plots

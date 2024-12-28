@@ -186,7 +186,7 @@ if __name__ == '__main__':
     # The best configuration.
     exploration_probabilities = [0.2]
     learning_rates = [0.3]
-    discount_factors = [0.3]
+    discount_factors = [0.7]
 
     best_percentage_win_agent = 0
 
@@ -220,8 +220,8 @@ if __name__ == '__main__':
                     pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
             else:
-                with open('../models/q_learning_agent.pkl', 'wb') as file:
-                    pickle.dump(Q, file)
+                # with open('../models/q_learning_agent.pkl', 'wb') as file:
+                #    pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
 
             if not SAVE_CSV_RESULTS:
