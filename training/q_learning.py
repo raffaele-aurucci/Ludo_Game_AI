@@ -1,17 +1,22 @@
+import os
 import pickle
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
-import matplotlib.pyplot as plt
 
 import ludopy
 from environment.ludo_environment import LudoEnv
 from environment.rewards import states
+from training.utils import draw_wins_plot_over_episodes
 
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
 SAVE_PLOTS = True            # True when not in grid search mode, else False.
 SELF_PLAY = True
+
+
+PLOTS_DIR = "../results/plots"
+WIN_FILE = os.path.join(PLOTS_DIR, "wins_plot_q_larning_self_play.png") if SELF_PLAY else os.path.join(PLOTS_DIR, "wins_plot_q_larning.png")
 
 
 def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float) -> tuple:
@@ -125,7 +130,7 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
 
     # Plot wins over episodes.
     if SAVE_PLOTS:
-        draw_plot(num_of_episodes, agent_wins, enemy_wins)
+        draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, self_play=SELF_PLAY, path=WIN_FILE)
 
     percentage_win_agent = (sum(agent_wins) / num_of_episodes) * 100
     percentage_win_enemy = (sum(enemy_wins) / num_of_episodes) * 100
@@ -145,34 +150,6 @@ def update_Q_table(Q: np.ndarray, current_player_state_idx: int, new_player_stat
 
     Q[current_player_state_idx, action] += learning_rate * (reward + discount_factor * np.max(Q[new_player_state_idx, :]
                                                             - Q[current_player_state_idx, action]))
-
-
-def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
-
-    agent_cumsum = np.cumsum(agent_wins)  # Cumulative sum for agent
-    enemy_cumsum = np.cumsum(enemy_wins)  # Cumulative sum for enemy
-
-    agent_percentage = (agent_cumsum / num_of_episodes) * 100
-    enemy_percentage = (enemy_cumsum / num_of_episodes) * 100
-
-    fig, ax = plt.subplots()
-
-    ax.plot(agent_percentage, label='Agent Wins %', color='forestgreen')
-    ax.plot(enemy_percentage, label='Enemy Wins %', color='steelblue')
-    ax.set_title('Wins Over Episodes')
-    ax.set_xlabel('Episode')
-    ax.set_ylabel('Percentage Win')
-    ax.legend()
-
-    if not SELF_PLAY:
-        ax.set_ylim(0, 60)
-
-    if SELF_PLAY:
-        plt.savefig('../results/plots/wins_plot_q_learning_self_play.png')
-    else:
-        plt.savefig('../results/plots/wins_plot_q_learning.png')
-
-    plt.show()
 
 
 if __name__ == '__main__':

@@ -1,3 +1,4 @@
+import os
 import pickle
 import numpy as np
 from tqdm import tqdm
@@ -7,11 +8,16 @@ import matplotlib.pyplot as plt
 import ludopy
 from environment.ludo_environment import LudoEnv
 from environment.rewards import states
+from training.utils import draw_wins_plot_over_episodes
 
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
 SAVE_PLOTS = True            # True when not in grid search mode, else False.
 SELF_PLAY = True
+
+
+PLOTS_DIR = "../results/plots"
+WIN_FILE = os.path.join(PLOTS_DIR, "wins_plot_sarsa_self_play.png") if SELF_PLAY else os.path.join(PLOTS_DIR, "wins_plot_sarsa.png")
 
 
 def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float) -> tuple:
@@ -128,7 +134,7 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
 
     # Plot wins over episodes.
     if SAVE_PLOTS:
-        draw_plot(num_of_episodes, agent_wins, enemy_wins)
+        draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, self_play=SELF_PLAY, path=WIN_FILE)
 
     percentage_win_agent = (sum(agent_wins) / num_of_episodes) * 100
     percentage_win_enemy = (sum(enemy_wins) / num_of_episodes) * 100
