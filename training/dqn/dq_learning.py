@@ -40,7 +40,7 @@ class DQLAgent():
     def __init__(self):
         # Hyperparameters
         self.learning_rate_a    = 0.3      # learning rate (alpha)
-        self.discount_factor_g  = 0.9      # discount rate (gamma)
+        self.discount_factor_g  = 0.7      # discount rate (gamma)
         self.network_sync_rate  = 10       # number of steps the agent takes before syncing the policy and target network
         self.replay_memory_size = 100000   # size of replay memory
         self.mini_batch_size    = 32       # size of the training data set sampled from the replay memory
@@ -59,16 +59,16 @@ class DQLAgent():
 
         # Path to save info.
         self.LOG_FILE   = os.path.join(LOG_DIR, 'dq_learning.log')
-        self.MODEL_FILE = os.path.join(MODELS_DIR, 'dq_learning.pt')
+        self.MODEL_FILE = os.path.join(MODELS_DIR, 'dq_learning_agent.pt')
         self.GRAPH_FILE = os.path.join(PLOTS_DIR, 'dq_learning_rewards_per_episode.png')
         self.WIN_FILE = os.path.join(PLOTS_DIR, 'wins_plot_dq_learning.png')
 
         if SELF_PLAY:
             self.LOG_FILE = os.path.join(LOG_DIR, 'dq_learning_self_play.log')
-            self.MODEL_FILE = os.path.join(MODELS_DIR, 'dq_learning_self_play.pt')
+            self.MODEL_FILE = os.path.join(MODELS_DIR, 'dq_learning_agent_self_play.pt')
             self.GRAPH_FILE = os.path.join(PLOTS_DIR, 'dq_learning_self_play_rewards_per_episode.png')
             self.WIN_FILE = os.path.join(PLOTS_DIR, 'wins_plot_dq_learning_self_play.png')
-            self.PRETRAINED_MODEL_FILE = os.path.join(MODELS_DIR, 'dq_learning.pt')
+            self.PRETRAINED_MODEL_FILE = os.path.join(MODELS_DIR, 'dq_learning_agent.pt')
 
     def run(self, num_of_episodes: int):
 
@@ -102,7 +102,7 @@ class DQLAgent():
         if SELF_PLAY:
             self.policy_dqn.load_state_dict(torch.load(self.PRETRAINED_MODEL_FILE))
             self.target_dqn.load_state_dict(self.policy_dqn.state_dict())
-            best_reward = 695.0 # best reward of pretrained model
+            best_reward = 954.0 # best reward of pretrained model
 
         # Training.
         for episode in tqdm(range(0, num_of_episodes), desc='Game progress'):
@@ -304,6 +304,6 @@ class DQLAgent():
 
 if __name__ == '__main__':
     dql_agent = DQLAgent()
-    percentage_win_agent, percentage_win_enemy = dql_agent.run(num_of_episodes=5000)
+    percentage_win_agent, percentage_win_enemy = dql_agent.run(num_of_episodes=25000)
     print(f'Percentage win agent: {percentage_win_agent}')
     print(f'Percentage win enemy: {percentage_win_enemy}')
