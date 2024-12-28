@@ -167,6 +167,8 @@ def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
     ax.set_ylabel('Percentage Win')
     ax.legend()
 
+    if not SELF_PLAY:
+        ax.set_ylim(0, 60)
 
     if SELF_PLAY:
         plt.savefig('../results/plots/wins_plot_sarsa_self_play.png')

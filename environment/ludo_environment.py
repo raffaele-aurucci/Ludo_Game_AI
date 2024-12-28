@@ -73,13 +73,14 @@ class LudoEnv(gym.Env):
 
         # choose piece to move
         piece_to_move = -1
-        if len(move_pieces):
+        if len(move_pieces) == 2:
             if action in move_pieces:
                 index = np.where(move_pieces == action)[0][0]
                 piece_to_move = move_pieces[index]
-            else:
-                reward -= 50
-                pass # if the agent choose an action that there is not in move_pieces
+        elif len(move_pieces) == 1:
+            piece_to_move = move_pieces[0]
+        else:
+            pass # if the agent choose an action that there is not in move_pieces
 
 
         # execute move in the game
@@ -131,7 +132,7 @@ class LudoEnv(gym.Env):
 
         # Reward when the token of the player enter into PATH from HOME.
         if old_player_state['HOME'] > player_state['HOME']:
-            reward += 30
+            reward += 5
 
         # Reward when the token of the player enter into safe zone.
         if old_player_state['SAFE'] < player_state['SAFE']:
@@ -139,7 +140,7 @@ class LudoEnv(gym.Env):
 
         # Reward when at least one token of the player enter into goal tail.
         if old_player_state['GOAL'] < player_state['GOAL']:
-            reward += 10
+            reward += 20
 
         # Reward when token of player eats the enemy token.
         if old_enemy_state['HOME'] < enemy_state['HOME']:

@@ -10,7 +10,7 @@ from environment.rewards import states
 
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
-SAVE_PLOTS = True          # True when not in grid search mode, else False.
+SAVE_PLOTS = True            # True when not in grid search mode, else False.
 SELF_PLAY = True
 
 
@@ -164,6 +164,8 @@ def draw_plot(num_of_episodes: int, agent_wins: list, enemy_wins: list):
     ax.set_ylabel('Percentage Win')
     ax.legend()
 
+    if not SELF_PLAY:
+        ax.set_ylim(0, 60)
 
     if SELF_PLAY:
         plt.savefig('../results/plots/wins_plot_q_learning_self_play.png')
@@ -182,7 +184,7 @@ if __name__ == '__main__':
     # discount_factors = [0.3, 0.5, 0.7, 0.9]
 
     # The best configuration.
-    exploration_probabilities = [0.1]
+    exploration_probabilities = [0.2]
     learning_rates = [0.3]
     discount_factors = [0.3]
 

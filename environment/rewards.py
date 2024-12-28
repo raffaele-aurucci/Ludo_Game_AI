@@ -45,29 +45,29 @@ rewards = [
     [0, 0], [0, 0],
 
     #Case 2
-    [0, 0],  [-4, 4], [4, -4], [-4, 4],
-    [4, -4], [-4, 4], [-4, 4], [4, -4],
-    [-4, 4], [4, -4], [-4, 4], [4, -4],
+    [0, 0],  [-5, 5], [5, -5], [-5, 5],
+    [5, -5], [-5, 5], [-5, 5], [5, -5],
+    [-5, 5], [5, -5], [-5, 5], [5, -5],
 
     #Case 3
-    [0, 0], [-4, 4], [4, -4],
+    [0, 0], [-5, 5], [5, -5],
 
     #Case 4
-    [0, 0], [-4, 4], [4, -4],
+    [0, 0], [-5, 5], [5, -5],
 
     #Case 5
-    [0, 0], [-4, 4], [4, -4], [0, 0],
-    [-4, 4], [-4, 4], [-4, 4], [-4, 4],
-    [4, -4], [4, -4], [4, -4], [4, -4],
-    [0, 0], [-4, 4], [4, -4], [0, 0],
+    [0, 0], [-5, 5], [5, -5], [0, 0],
+    [-5, 5], [-5, 5], [-5, 5], [-5, 5],
+    [5, -5], [5, -5], [5, -5], [5, -5],
+    [0, 0], [-5, 5], [5, -5], [0, 0],
 
     #Case 6
-    [0, 0], [-4, 4], [4, -4], [-4, 4],
-    [-4, 4], [4, -4], [4, -4],
+    [0, 0], [-5, 5], [5, -5], [-5, 5],
+    [-5, 5], [5, -5], [5, -5],
 
     #Case 7
-    [0, 0], [0, 4], [4, 0], [0, 4],
-    [0, 4], [4, 0], [4, 0],
+    [0, 0], [0, 5], [5, 0], [0, 5],
+    [0, 5], [5, 0], [5, 0],
 
     #Case 8
     [0, 0],
@@ -93,11 +93,11 @@ def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarra
         if state['HOME'] >= 1:
             return reward
         # If the player move the token that is the nearest to the goal.
-        if reward == 0:
-            other_action = (action + 1) % 2 # To know the other token.
-            if old_player_pos[action] > old_player_pos[other_action]:
-                reward += 2
-            elif old_player_pos[action] < old_player_pos[other_action]:
-                reward -= 2
+        other_action = (action + 1) % 2 # To know the other token.
+
+        if old_player_pos[action] > old_player_pos[other_action]:
+            reward += 30
+        elif old_player_pos[action] < old_player_pos[other_action]:
+            reward -= 30
 
     return reward
