@@ -102,7 +102,7 @@ class DQLAgent():
         if SELF_PLAY:
             self.policy_dqn.load_state_dict(torch.load(self.PRETRAINED_MODEL_FILE))
             self.target_dqn.load_state_dict(self.policy_dqn.state_dict())
-            best_reward = 954.0 # best reward of pretrained model
+            best_reward = 1380.0 # best reward of pretrained model
 
         # Training.
         for episode in tqdm(range(0, num_of_episodes), desc='Training progress'):
