@@ -10,13 +10,13 @@ from environment.rewards import states
 from training.utils import draw_wins_plot_over_episodes
 
 
-SAVE_CSV_RESULTS = True     # True in grid search mode, else False.
-SAVE_PLOTS = False           # True when not in grid search mode, else False.
-SELF_PLAY = False
+SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
+SAVE_PLOTS = True            # True when not in grid search mode, else False.
+SELF_PLAY = True
 
 
 PLOTS_DIR = "../results/plots"
-WIN_FILE = os.path.join(PLOTS_DIR, "wins_plot_q_larning_self_play.png") if SELF_PLAY else os.path.join(PLOTS_DIR, "wins_plot_q_larning.png")
+WIN_FILE = os.path.join(PLOTS_DIR, "wins_plot_q_learning_self_play.png") if SELF_PLAY else os.path.join(PLOTS_DIR, "wins_plot_q_learning.png")
 
 
 def training_episodes(num_of_episodes: int, exploration_prob: float, learning_rate: float, discount_factor: float) -> tuple:
@@ -156,14 +156,14 @@ if __name__ == '__main__':
     num_episodes = 5000
 
     # Uncomment this part for grid search.
-    exploration_probabilities = [0.1, 0.2, 0.3]
-    learning_rates = [0.3, 0.4, 0.5]
-    discount_factors = [0.3, 0.5, 0.7, 0.9]
+    # exploration_probabilities = [0.1, 0.2, 0.3]
+    # learning_rates = [0.3, 0.4, 0.5]
+    # discount_factors = [0.3, 0.5, 0.7, 0.9]
 
     # The best configuration.
-    # exploration_probabilities = [0.2]
-    # learning_rates = [0.3]
-    # discount_factors = [0.3]
+    exploration_probabilities = [0.1]
+    learning_rates = [0.3]
+    discount_factors = [0.5]
 
     best_percentage_win_agent = 0
 
