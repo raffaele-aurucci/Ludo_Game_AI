@@ -11,7 +11,7 @@ from training.utils import draw_wins_plot_over_episodes
 
 
 SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
-SAVE_PLOTS = True            # True when not in grid search mode, else False.
+SAVE_PLOTS = False           # True when not in grid search mode, else False.
 SELF_PLAY = True
 
 
@@ -29,17 +29,17 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
     env = LudoEnv(ludopy.Game())
 
     # Random if not self-play.
-    Q_agent = np.random.rand(53, 2)
+    Q_agent = np.zeros((53, 2))
 
     if SELF_PLAY:
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+        with open('../models/q_learning_agent2.pkl', 'rb') as file:
             Q_agent = pickle.load(file)
 
     # Using in self-play.
     Q_enemy = None
 
     if SELF_PLAY:
-        with open('../models/q_learning_agent.pkl', 'rb') as file:
+        with open('../models/q_learning_agent2.pkl', 'rb') as file:
             Q_enemy = pickle.load(file)
 
     for episode in range(num_of_episodes):
@@ -163,12 +163,13 @@ if __name__ == '__main__':
     # The best configuration.
     exploration_probabilities = [0.2]
     learning_rates = [0.3]
-    discount_factors = [0.7]
+    discount_factors = [0.3]
 
     best_percentage_win_agent = 0
 
     # Repeatability of results.
-    np.random.seed(42)
+    if not SELF_PLAY:
+        np.random.seed(42)
 
     # Combination of parameters.
     param_combinations = [
@@ -193,12 +194,12 @@ if __name__ == '__main__':
             best_percentage_win_agent = percentage_win_agent
 
             if SELF_PLAY:
-                with open('../models/q_learning_agent_self_play.pkl', 'wb') as file:
+                with open('../models/q_learning_agent_self_play2.pkl', 'wb') as file:
                     pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
             else:
-                # with open('../models/q_learning_agent.pkl', 'wb') as file:
-                #    pickle.dump(Q, file)
+                with open('../models/q_learning_agent2.pkl', 'wb') as file:
+                   pickle.dump(Q, file)
                 print("\nQ model saved successfully.")
 
             if not SAVE_CSV_RESULTS:

@@ -200,7 +200,8 @@ if __name__ == '__main__':
     best_percentage_win_agent = 0
 
     # Repeatability of results.
-    np.random.seed(42)
+    if not SELF_PLAY:
+        np.random.seed(42)
 
     # Combination of parameters.
     param_combinations = [
