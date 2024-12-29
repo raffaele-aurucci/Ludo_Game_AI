@@ -97,12 +97,12 @@ class LudoEnv(gym.Env):
 
             # update state of player and state of enemy
             if self.current_player == 'green':
-                reward += get_reward_from_strategy(old_player_state, action, old_player_pos, move_pieces)
+                reward += get_reward_from_strategy(old_player_state, action, old_player_pos, old_enemy_pos, move_pieces)
                 self.player_state = encode_state(old_player_pos, player_pos, enemy_pos)
                 self.enemy_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
                 reward += self.compute_additional_reward(old_player_state, self.player_state, old_enemy_state, self.enemy_state)
             else: # turn of player blue
-                reward += get_reward_from_strategy(old_enemy_state, action, old_enemy_pos, move_pieces)
+                reward += get_reward_from_strategy(old_enemy_state, action, old_enemy_pos, old_player_pos, move_pieces)
                 self.enemy_state = encode_state(old_player_pos, player_pos, enemy_pos)
                 self.player_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
                 reward += self.compute_additional_reward(old_enemy_state, self.enemy_state, old_player_state, self.player_state)

@@ -242,15 +242,7 @@ class Game:
         self._add_to_hist()
 
         next_player = True
-        # In the first round the players has 3 attempts to get a piece out of home.
-        if self.round == 1 and \
-                all(p_piece == 0 for p_piece in self.players[self.current_player].get_pieces()) and \
-                self.current_start_attempts < 3:
-            self.current_start_attempts += 1
-            next_player = False
-        else:
-            self.current_start_attempts = 0
-        # If it is not in the first round a dice on 6 will give an extra move.
+
         if self.round != 1 and self.current_dice == 6:
             next_player = False # extra move for current player.
 

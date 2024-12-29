@@ -1,7 +1,6 @@
 import numpy as np
 
 TOTAL_NUMBER_OF_TAILES = 58
-DICE_MOVE_OUT_OF_HOME = 6
 NO_ENEMY = -1
 
 # Numeric constants used as markers for cells.
@@ -142,7 +141,7 @@ class Player:
                 continue
 
             # If the piece is at home and the dice is DICE_MOVE_OUT_OF_HOME then the dice can move out of the home place.
-            elif BORD_TILES[piece_place] == TAILE_HOME and dice == DICE_MOVE_OUT_OF_HOME:
+            elif BORD_TILES[piece_place] == TAILE_HOME:
                 movable_pieces.append(piece_i)
             # If the piece is in goal areal and the dice value not overshoot the board.
             elif BORD_TILES[piece_place] == TAILE_GOAL_AREAL:
@@ -226,7 +225,6 @@ class Player:
         # If the piece is in the home and the dice value is 6.
         # The Home areal.
         elif BORD_TILES[old_piece_pos] == TAILE_HOME:
-            if dice == DICE_MOVE_OUT_OF_HOME:
                 self.pieces[piece] = START_INDEX
 
                 # Set the enemy there might be at START_INDEX to moved.

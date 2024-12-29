@@ -80,7 +80,7 @@ rewards = [
 ]
 
 
-def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarray, move_pieces: np.ndarray) -> int:
+def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarray, old_enemy_pos: np.ndarray, move_pieces: np.ndarray) -> int:
     reward = 0
 
     # Return the index of the state.
@@ -92,12 +92,14 @@ def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarra
     if len(move_pieces) == 2:
         if state['HOME'] >= 1:
             return reward
-        # If the player move the token that is the nearest to the goal.
-        other_action = (action + 1) % 2 # To know the other token.
 
-        if old_player_pos[action] > old_player_pos[other_action]:
-            reward += 30
-        elif old_player_pos[action] < old_player_pos[other_action]:
-            reward -= 30
+        if reward == 0:
+            # If the player move the token that is the nearest to the goal.
+            other_action = (action + 1) % 2 # To know the other token.
+
+            if old_player_pos[action] > old_player_pos[other_action]:
+                reward += 30
+            elif old_player_pos[action] < old_player_pos[other_action]:
+                reward -= 30
 
     return reward
