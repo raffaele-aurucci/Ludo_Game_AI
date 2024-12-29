@@ -16,9 +16,8 @@ def draw_wins_plot_over_episodes(num_of_episodes: int, agent_wins: list, enemy_w
     ax.set_title('Wins Over Episodes')
     ax.set_xlabel('Episode')
     ax.set_ylabel('Percentage Win')
-    ax.legend()
+    ax.legend(loc='upper left')
 
-    if not self_play:
-        ax.set_ylim(0, 60)
+    # ax.set_ylim(0, 60)
 
     plt.savefig(path)
