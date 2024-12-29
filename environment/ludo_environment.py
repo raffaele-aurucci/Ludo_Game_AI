@@ -132,7 +132,7 @@ class LudoEnv(gym.Env):
 
         # Reward when the token of the player enter into PATH from HOME.
         if old_player_state['HOME'] > player_state['HOME']:
-            reward += 5
+            reward += 18
 
         # Reward when the token of the player enter into safe zone.
         if old_player_state['SAFE'] < player_state['SAFE']:
