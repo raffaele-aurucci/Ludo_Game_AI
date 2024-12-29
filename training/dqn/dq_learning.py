@@ -19,7 +19,7 @@ import os
 from training.utils import draw_wins_plot_over_episodes
 
 
-SELF_PLAY = True
+SELF_PLAY = False
 
 # For printing date and time
 DATE_FORMAT = "%m-%d %H:%M:%S"
@@ -40,7 +40,7 @@ class DQLAgent():
     def __init__(self):
         # Hyperparameters
         self.learning_rate_a    = 0.3      # learning rate (alpha)
-        self.discount_factor_g  = 0.7      # discount rate (gamma)
+        self.discount_factor_g  = 0.3      # discount rate (gamma)
         self.network_sync_rate  = 10       # number of steps the agent takes before syncing the policy and target network
         self.replay_memory_size = 100000   # size of replay memory
         self.mini_batch_size    = 32       # size of the training data set sampled from the replay memory
@@ -105,7 +105,7 @@ class DQLAgent():
             best_reward = 954.0 # best reward of pretrained model
 
         # Training.
-        for episode in tqdm(range(0, num_of_episodes), desc='Game progress'):
+        for episode in tqdm(range(0, num_of_episodes), desc='Training progress'):
 
             started_state = [2, 0, 0, 0, 0, 0, 0, 0]
 
@@ -303,6 +303,10 @@ class DQLAgent():
 
 
 if __name__ == '__main__':
+    # Repeatability of results.
+    if not SELF_PLAY:
+        np.random.seed(42)
+
     dql_agent = DQLAgent()
     percentage_win_agent, percentage_win_enemy = dql_agent.run(num_of_episodes=25000)
     print(f'Percentage win agent: {percentage_win_agent}')

@@ -130,7 +130,7 @@ if __name__ == '__main__':
     np.random.seed(42)
     num_wins_agent = 0
 
-    mode = 'D_SELF-VS-RANDOM'
+    mode = 'D-VS-RANDOM'
 
     for i in tqdm(range(0, 5000), desc='Game progress'):
         win_agent = execute(mode)
