@@ -11,9 +11,9 @@ from environment.rewards import states
 from training.utils import draw_wins_plot_over_episodes
 
 
-SAVE_CSV_RESULTS = False     # True in grid search mode, else False.
-SAVE_PLOTS = True            # True when not in grid search mode, else False.
-SELF_PLAY = True
+SAVE_CSV_RESULTS = True     # True in grid search mode, else False.
+SAVE_PLOTS = False            # True when not in grid search mode, else False.
+SELF_PLAY = False
 
 
 PLOTS_DIR = "../results/plots"
@@ -30,7 +30,7 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
     env = LudoEnv(ludopy.Game())
 
     # Random if not self-play.
-    Q_agent = np.random.rand(53, 2)
+    Q_agent = np.zeros((53, 2))
 
     if SELF_PLAY:
         with open('../models/sarsa_agent.pkl', 'rb') as file:
@@ -188,14 +188,14 @@ if __name__ == '__main__':
     num_episodes = 5000
 
     # Uncomment this part for grid search.
-    # exploration_probabilities = [0.1, 0.2, 0.3]
-    # learning_rates = [0.3, 0.4, 0.5]
-    # discount_factors = [0.3, 0.5, 0.7, 0.9]
+    exploration_probabilities = [0.1, 0.2, 0.3]
+    learning_rates = [0.3, 0.4, 0.5]
+    discount_factors = [0.3, 0.5, 0.7, 0.9]
 
     # The best configuration.
-    exploration_probabilities = [0.2]
-    learning_rates = [0.3]
-    discount_factors = [0.7]
+    # exploration_probabilities = [0.2]
+    # learning_rates = [0.3]
+    # discount_factors = [0.7]
 
     best_percentage_win_agent = 0
 
