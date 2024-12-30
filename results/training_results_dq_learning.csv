@@ -1,0 +1,5 @@
+Num Episodes,Learning Rate,Discount Factor,Percentage Win Agent,Percentage Win Enemy
+25000,0.3,0.3,66.91,33.09
+25000,0.3,0.5,65.26,34.74
+25000,0.3,0.7,61.55,38.45
+25000,0.3,0.9,60.42,41.74
