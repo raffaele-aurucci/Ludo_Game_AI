@@ -19,7 +19,7 @@ import os
 from training.utils import draw_wins_plot_over_episodes
 
 
-SELF_PLAY = False
+SELF_PLAY = True
 
 # For printing date and time
 DATE_FORMAT = "%m-%d %H:%M:%S"
