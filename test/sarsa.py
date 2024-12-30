@@ -134,15 +134,18 @@ if __name__ == '__main__':
     np.random.seed(42)
     num_wins_agent = 0
 
-    mode = 'S_SELF-VS-RANDOM'
+    mode = 'S_SELF-VS-S'
 
-    for i in tqdm(range(0, 5000), desc='Game progress'):
+    for i in tqdm(range(0, 10000), desc='Test progress'):
         win_agent = execute(mode)
         if win_agent:
             num_wins_agent += 1
 
-    percentage_win_agent = (num_wins_agent / 5000) * 100
+    percentage_win_agent = (num_wins_agent / 10000) * 100
     print(f'\nMode: {mode}')
     print(f'Percentage win agent: {percentage_win_agent}')
     print(f'Percentage win enemy: {100 - percentage_win_agent}')
 
+# S-VS-RANDOM 61.25%
+# S_SELF VS RANDOM 62.48%
+# S_SELF VS S 49.46%

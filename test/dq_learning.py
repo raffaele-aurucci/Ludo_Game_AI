@@ -132,13 +132,16 @@ if __name__ == '__main__':
 
     mode = 'D-VS-RANDOM'
 
-    for i in tqdm(range(0, 5000), desc='Game progress'):
+    for i in tqdm(range(0, 10000), desc='Test progress'):
         win_agent = execute(mode)
         if win_agent:
             num_wins_agent += 1
 
-    percentage_win_agent = (num_wins_agent / 5000) * 100
+    percentage_win_agent = (num_wins_agent / 10000) * 100
     print(f'\nMode: {mode}')
     print(f'Percentage win agent: {percentage_win_agent}')
     print(f'Percentage win enemy: {100 - percentage_win_agent}')
 
+# D-VS-RANDOM 70.96%
+# D_SELF-VS-RANDOM 70.96%
+# D_SELF-VS-D 56.71%
