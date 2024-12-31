@@ -80,7 +80,7 @@ rewards = [
 ]
 
 
-def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarray, old_enemy_pos: np.ndarray, move_pieces: np.ndarray) -> int:
+def get_reward_from_strategy(state: dict, action: int, old_player_pos: np.ndarray, move_pieces: np.ndarray) -> int:
     reward = 0
 
     # Return the index of the state.

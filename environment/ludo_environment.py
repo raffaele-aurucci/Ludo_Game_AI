@@ -77,10 +77,10 @@ class LudoEnv(gym.Env):
             if action in move_pieces:
                 index = np.where(move_pieces == action)[0][0]
                 piece_to_move = move_pieces[index]
-        elif len(move_pieces) == 1:
+        elif len(move_pieces) == 1: # if the agent has one choice
             piece_to_move = move_pieces[0]
         else:
-            pass # if the agent choose an action that there is not in move_pieces
+            pass # if the agent has no choice
 
 
         # execute move in the game
@@ -97,12 +97,12 @@ class LudoEnv(gym.Env):
 
             # update state of player and state of enemy
             if self.current_player == 'green':
-                reward += get_reward_from_strategy(old_player_state, action, old_player_pos, old_enemy_pos, move_pieces)
+                reward += get_reward_from_strategy(old_player_state, action, old_player_pos, move_pieces)
                 self.player_state = encode_state(old_player_pos, player_pos, enemy_pos)
                 self.enemy_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
                 reward += self.compute_additional_reward(old_player_state, self.player_state, old_enemy_state, self.enemy_state)
             else: # turn of player blue
-                reward += get_reward_from_strategy(old_enemy_state, action, old_enemy_pos, old_player_pos, move_pieces)
+                reward += get_reward_from_strategy(old_enemy_state, action, old_enemy_pos, move_pieces)
                 self.enemy_state = encode_state(old_player_pos, player_pos, enemy_pos)
                 self.player_state = encode_state(old_enemy_pos, enemy_pos, player_pos)
                 reward += self.compute_additional_reward(old_enemy_state, self.enemy_state, old_player_state, self.player_state)

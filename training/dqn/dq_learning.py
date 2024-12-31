@@ -19,7 +19,7 @@ import os
 from training.utils import draw_wins_plot_over_episodes
 
 
-SELF_PLAY = True
+SELF_PLAY = False
 
 # For printing date and time
 DATE_FORMAT = "%m-%d %H:%M:%S"
@@ -220,9 +220,9 @@ class DQLAgent():
 
 
         if SELF_PLAY:
-            draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, self_play=True, path=self.WIN_FILE)
+            draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, file_path=self.WIN_FILE)
         else:
-            draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, self_play=False,path=self.WIN_FILE)
+            draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, file_path=self.WIN_FILE)
 
         percentage_win_agent = (sum(agent_wins) / num_of_episodes) * 100
         percentage_win_enemy = (sum(enemy_wins) / num_of_episodes) * 100
@@ -230,7 +230,7 @@ class DQLAgent():
         return percentage_win_agent, percentage_win_enemy
 
 
-    def choose_action(self, epsilon, state):
+    def choose_action(self, epsilon: float, state: torch.Tensor) -> int:
 
         action = None
 
@@ -247,7 +247,7 @@ class DQLAgent():
         return action
 
 
-    def draw_rewards_per_episode_plot(self, rewards_per_episode, epsilon_history):
+    def draw_rewards_per_episode_plot(self, rewards_per_episode: list, epsilon_history: list):
         fig = plt.figure(1)
 
         # Plot average rewards (Y-axis) vs episodes (X-axis)
@@ -274,7 +274,7 @@ class DQLAgent():
 
 
     # Optimize policy network
-    def optimize(self, mini_batch):
+    def optimize(self, mini_batch: list) -> None:
 
         # List of experiences.
         states, actions, new_states, rewards, terminations = zip(*mini_batch)

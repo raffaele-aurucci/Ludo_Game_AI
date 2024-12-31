@@ -130,7 +130,7 @@ def training_episodes(num_of_episodes: int, exploration_prob: float, learning_ra
 
     # Plot wins over episodes.
     if SAVE_PLOTS:
-        draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, self_play=SELF_PLAY, path=WIN_FILE)
+        draw_wins_plot_over_episodes(num_of_episodes, agent_wins, enemy_wins, file_path=WIN_FILE)
 
     percentage_win_agent = (sum(agent_wins) / num_of_episodes) * 100
     percentage_win_enemy = (sum(enemy_wins) / num_of_episodes) * 100

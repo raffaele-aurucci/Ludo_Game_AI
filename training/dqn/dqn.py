@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 class DQN(nn.Module):
 
-    def __init__(self, state_dim, action_dim, hidden_dim=128):
+    def __init__(self, state_dim: int, action_dim: int, hidden_dim: int = 128):
         super(DQN, self).__init__()
 
         # Implicit input layer (# of node = 8).
@@ -25,7 +25,6 @@ class DQN(nn.Module):
 #     action_dim = 2
 #     net = DQN(state_dim, action_dim)
 #
-#     # Sposta la rete sulla GPU (se disponibile)
 #     device = 'cpu'
 #     net = net.to(device)
 #
