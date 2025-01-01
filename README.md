@@ -41,7 +41,7 @@ In this version of the game, rolling a six on the dice is not required to move a
 token can capture two enemy tokens on the same tile. The game ends when one player has two tokens in GOAL. 
 This simplification makes it easier to apply Q-table-based techniques for training intelligent agents.
 
-The image below shows a Ludo board with 2 players, each controlling 2 tokens. The future agent is represented by the green tokens, while the enemy is represented by the blue tokens.
+The image below shows a Ludo board with 2 players, each controlling 2 tokens. The agent is represented by the green tokens, while the enemy is represented by the blue tokens.
 
 <img width=600 src="https://github.com/user-attachments/assets/9a9137b4-416c-4e91-8612-12a6409d1d8e">
 
