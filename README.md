@@ -24,7 +24,7 @@ Project of course **Artificial Intelligence** - University of Salerno.
 
 ## Introduction
 In this project, we explore the application of **Reinforcement Learning (RL)** to the classic board game **Ludo**, 
-an environment that combines elements of strategy, randomness, and luck; more information available at this [link](https://en.wikipedia.org/wiki/Ludo). 
+an environment that combines elements of strategy, randomness, and luck; more information available at this [link](https://en.wikipedia.org/wiki/Ludo).  
 Ludo, with its inherent complexity, was simplified to represent various game scenarios in reduced manner. 
 This simplification facilitates the implementation of **Q-table-based** techniques for training intelligent agents. 
 Starting with the definition of the state space, we developed a gameplay strategy and trained three types of agents: 
@@ -36,10 +36,14 @@ with win rates exceeding 70%.
 In this work we have trained three types of agents, following the below methodology.
 
 ### Simplified Ludo
-The Ludo game was simplified to include only two players, each with two tokens. 
+The Ludo game was simplified to include only 2 players, each with 2 tokens. 
 In this version of the game, rolling a six on the dice is not required to move a token out of the base, and a single 
 token can capture two enemy tokens on the same tile. The game ends when one player has two tokens in GOAL. 
-This simplification makes it easier to apply Q-table-based techniques for training intelligent agents.
+This simplification makes it easier to apply Q-table-based techniques for training intelligent agents.  
+The image below shows a Ludo board with 2 players, each controlling 2 tokens. The future agent is represented by the green tokens, while the enemy is represented by the blue tokens.
+
+<img width=600 src="https://github.com/user-attachments/assets/450786ff-50da-4506-929d-21b56c9d9c5d">
+
 
 ### Observation Space and Action Space
 We have defined the **observation space** and **action space** of the agent using gymnasium environment. The observation space includes:
