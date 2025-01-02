@@ -32,7 +32,7 @@ effective in the context of Ludo. Results show that the DQ-learning model achiev
 with win rates exceeding 70%.
 
 ## Methodology
-In this work we have trained three types of agents, following the below methodology.
+In this work we trained three types of agents, following the methodology reported below.
 
 ### Simplified Ludo
 The Ludo game was simplified to include only 2 players, each with 2 tokens. 
