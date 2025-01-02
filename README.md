@@ -76,11 +76,11 @@ that is furthest ahead in situations where there is indecision on which token to
 **-30** for an unfavorable one), reaching the SAFE zone (**+5**), reaching the GOAL zone (**+20**), exiting from HOME (**+18**), 
 capturing the enemy's token (**+7**), and being captured by the enemy (**-7**). Finally, winning the game rewards the agent with (**+50**).  
 
-In the following case, the two tokens of the agent are in PATH, and TOKEN 1 can attack the enemy. The agent will gain a reward of **+5** if it moves TOKEN 1, as it will successfully capture the enemy.
+In this scenario, the agent's two tokens are positioned in PATH, and TOKEN 1 is in a position to attack the enemy. By moving TOKEN 1, the agent can successfully capture the enemy, earning a total reward of **+42**. This reward is composed of **+5** for the offensive action, **+30** for a strategically favorable move, and **+7** for capturing the enemy."
 
 <img width=500 src="https://github.com/user-attachments/assets/0a3a635c-6267-482a-9aaf-5a5002cf8c9f"> <br>
 
-In the following case, the two tokens of the agent are in PATH, and TOKEN 1 is under attack by the enemy. The agent will gain a reward of **+5** if it moves TOKEN 1, as it will successfully defend itself.
+In this other scenario, the agent's two tokens are positioned in PATH, and TOKEN 1 is under attack by the enemy. By moving TOKEN 1, the agent can successfully defend itself, earning a total reward of **+35**. This reward includes **+5** for the defensive action and **+30** for making a strategically favorable move.
 
 <img width=500 src="https://github.com/user-attachments/assets/548569a6-2fab-477c-aec7-7cd3da9fd0b5">
 
