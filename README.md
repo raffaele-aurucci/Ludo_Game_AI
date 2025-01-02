@@ -3,9 +3,7 @@
 Project of course **Artificial Intelligence** - University of Salerno.
 
 ## Contributors
-<a href="https://github.com/raffaele-aurucci/Ludo_Game_AI/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=raffaele-aurucci/Ludo_Game_AI" />
-</a>
+[@raffaele-aurucci](https://github.com/raffaele-aurucci), [@AngeloPalmieri](https://github.com/AngeloPalmieri), [@CSSabino](https://github.com/CSSabino).
 
 ## Table of Contents
 
