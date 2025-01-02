@@ -70,11 +70,21 @@ When designing a gameplay strategy, the primary goal is to win. To achieve this,
 a strategy was developed that alternates between **defense** and **offense**: the agent defends its tokens when they are under 
 attack and attempts offensive moves when one of its tokens can attack the enemy.  
 The strategy is supported by a **reward system** based on the agent's state and actions. For example, if TOKEN 1 is under attack and the agent successfully defends it, 
-a positive reward (+5) is granted, alternatively a negative reward (-5) is obtained.  
+a positive reward (**+5**) is granted, alternatively a negative reward (**-5**) is obtained.  
 Other rewards include moving the token 
-that is furthest ahead in situations where there is indecision on which token to defend or attack (+30 for a favorable move, 
--30 for an unfavorable one), reaching the SAFE zone (+5), reaching the GOAL zone (+20), exiting from HOME (+18), 
-capturing the enemy's token (+7), and being captured by the enemy (-7). Finally, winning the game rewards the agent with (+50).
+that is furthest ahead in situations where there is indecision on which token to defend or attack (**+30** for a favorable move, 
+**-30** for an unfavorable one), reaching the SAFE zone (**+5**), reaching the GOAL zone (+20), exiting from HOME (**+18**), 
+capturing the enemy's token (**+7**), and being captured by the enemy (**-7**). Finally, winning the game rewards the agent with (**+50**).  
+
+In the following case, the two tokens of the agent are in PATH, and TOKEN 1 can attack the enemy. The agent will gain a reward of +5 if it moves TOKEN 1, as it will successfully capture the enemy.
+
+<img width=600 src="https://github.com/user-attachments/assets/0a3a635c-6267-482a-9aaf-5a5002cf8c9f"> <br>
+
+In the following case, the two tokens of the agent are in PATH, and TOKEN 1 is under attack by the enemy. The agent will gain a reward of +5 if it moves TOKEN 1, as it will successfully defend itself.
+
+<img width=600 src="https://github.com/user-attachments/assets/548569a6-2fab-477c-aec7-7cd3da9fd0b5">
+
+
 
 ### Training models
 The agent implementation involved the development of three algorithms: **Q-learning**, **SARSA** and **DQ-learning**. 
