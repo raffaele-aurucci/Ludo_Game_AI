@@ -19,10 +19,11 @@ Project of course **Artificial Intelligence** - University of Salerno.
    - [Cloning the Repository](#cloning-the-repository)
    - [Creating the Virtual Environment](#creating-the-virtual-environment)
    - [Installing Requirements](#installing-requirements)
+5. [References](#references)
 
 ## Introduction
 In this project, we explore the application of **Reinforcement Learning (RL)** to the classic board game **Ludo**, 
-an environment that combines elements of strategy, randomness, and luck; more information available at this [link](https://en.wikipedia.org/wiki/Ludo).  
+an environment that combines elements of strategy, randomness, and luck. More information on the game available at this [link](https://en.wikipedia.org/wiki/Ludo).  
 Ludo, with its inherent complexity, was simplified to represent various game scenarios in reduced manner. 
 This simplification facilitates the implementation of **Q-table-based** techniques for training intelligent agents. 
 Starting with the definition of the state space, we developed a gameplay strategy and trained three types of agents: 
