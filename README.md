@@ -41,7 +41,7 @@ This simplification makes it easier to apply Q-table-based techniques for traini
 
 The image below shows a Ludo board with 2 players, each controlling 2 tokens. The agent is represented by the green tokens, while the enemy is represented by the blue tokens.
 
-<img width=600 src="https://github.com/user-attachments/assets/9a9137b4-416c-4e91-8612-12a6409d1d8e">
+<img width=500 src="https://github.com/user-attachments/assets/9a9137b4-416c-4e91-8612-12a6409d1d8e">
 
 ### Observation Space and Action Space
 We have defined the **observation space** and **action space** of the agent using gymnasium environment. The observation space includes:
@@ -73,16 +73,16 @@ The strategy is supported by a **reward system** based on the agent's state and 
 a positive reward (**+5**) is granted, alternatively a negative reward (**-5**) is obtained.  
 Other rewards include moving the token 
 that is furthest ahead in situations where there is indecision on which token to defend or attack (**+30** for a favorable move, 
-**-30** for an unfavorable one), reaching the SAFE zone (**+5**), reaching the GOAL zone (+20), exiting from HOME (**+18**), 
+**-30** for an unfavorable one), reaching the SAFE zone (**+5**), reaching the GOAL zone (**+20**), exiting from HOME (**+18**), 
 capturing the enemy's token (**+7**), and being captured by the enemy (**-7**). Finally, winning the game rewards the agent with (**+50**).  
 
-In the following case, the two tokens of the agent are in PATH, and TOKEN 1 can attack the enemy. The agent will gain a reward of +5 if it moves TOKEN 1, as it will successfully capture the enemy.
+In the following case, the two tokens of the agent are in PATH, and TOKEN 1 can attack the enemy. The agent will gain a reward of **+5** if it moves TOKEN 1, as it will successfully capture the enemy.
 
-<img width=600 src="https://github.com/user-attachments/assets/0a3a635c-6267-482a-9aaf-5a5002cf8c9f"> <br>
+<img width=500 src="https://github.com/user-attachments/assets/0a3a635c-6267-482a-9aaf-5a5002cf8c9f"> <br>
 
-In the following case, the two tokens of the agent are in PATH, and TOKEN 1 is under attack by the enemy. The agent will gain a reward of +5 if it moves TOKEN 1, as it will successfully defend itself.
+In the following case, the two tokens of the agent are in PATH, and TOKEN 1 is under attack by the enemy. The agent will gain a reward of **+5** if it moves TOKEN 1, as it will successfully defend itself.
 
-<img width=600 src="https://github.com/user-attachments/assets/548569a6-2fab-477c-aec7-7cd3da9fd0b5">
+<img width=500 src="https://github.com/user-attachments/assets/548569a6-2fab-477c-aec7-7cd3da9fd0b5">
 
 
 
