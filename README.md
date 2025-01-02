@@ -65,7 +65,7 @@ The action space includes:
 | MOVE TOKEN 1 | {0, 1}     | Boolean value indicating whether to move token 1  |
 | MOVE TOKEN 2 | {0, 1}     | Boolean value indicating whether to move token 2. |
 
-### Gameplay strategy
+### Gameplay Strategy
 When designing a gameplay strategy, the primary goal is to win. To achieve this, 
 a strategy was developed that alternates between **defense** and **offense**: the agent defends its tokens when they are under 
 attack and attempts offensive moves when one of its tokens can attack the enemy.  
